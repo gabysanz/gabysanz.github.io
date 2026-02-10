@@ -26,7 +26,8 @@
             padding: 10px;
             box-sizing: border-box;
             text-align: justify;
-            font: 24px Arial, sans-serif;
+            font: 24px/1.2 Arial, sans-serif;
+            z-index: 9999;
             pointer-events: none;
             white-space: normal;
         }
@@ -46,13 +47,14 @@
 
             create() {
                 const mensajes = {
+                    start: 'Primi nu tastu qualegghiè p accuminciari',
                     padrenuestro: {
                         siciliano: "Patri nostru, chi siti 'n celu, Sia santificatu lu vostru nomu, Vinissi prestu lu vostru regnu, Sempri sia fatta la vostra Divina Vuluntati, Comu 'n celu accussì 'n terra. Dàtinillu sta jurnata lu panuzzu cutiddianu, E pirdunàtini li nostri piccati, Accussì comu nuautri li rimittemu ê nostri nimici, E nun ni lassati cascari ntâ tintazzioni, ma scanzàtini dû mali. Ámin."
                     }
                 };
 
                 // Crear/actualizar overlay HTML para mostrar texto justificado
-                const text = mensajes.padrenuestro.siciliano;
+                const text = mensajes.start//mensajes.padrenuestro.siciliano;
                 let overlay = document.getElementById('text-overlay');
                 if (!overlay) {
                     overlay = document.createElement('div');
@@ -86,12 +88,21 @@
 
             create() {
                 // Escena vacía; aquí podrás añadir manejadores de teclas para jugar
-                this.add.text(10, 10, 'Escena de entrada (presiona teclas)', { font: '18px Arial', fill: '#ffffff' });
+                let mensaje = 'Escena de entrada (presiona teclas)';
+                this.add.text(10, 10, mensaje, { font: '18px Arial', fill: '#ffffff' });
 
-                // Ejemplo: escuchar teclas individuales (puedes personalizar luego)
+                // Texto que mostrará la tecla pulsada
+                let keyPressed = 'Tecla: -';
+                this.pressedKeyText = this.add.text(10, 40, keyPressed, { font: '20px Arial', fill: '#ffff00' });
+
+                // Escuchar teclas y actualizar el texto en pantalla
                 this.input.keyboard.on('keydown', (event) => {
-                    // Por ahora solo mostramos la tecla en consola y en pantalla
-                    console.log('Tecla pulsada en InputScene:', event.key);
+                    let key = event.key;
+                    let display = key;
+                    if (key === ' ') display = 'SPACE';
+                    else if (key === 'Escape') display = 'ESC';
+                    else if (key === 'Enter') display = 'ENTER';
+                    this.pressedKeyText.setText('Tecla: ' + display);
                 });
             }
         }
