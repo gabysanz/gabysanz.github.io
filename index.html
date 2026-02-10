@@ -1,1 +1,60 @@
-hi
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Juego con Phaser</title>
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #222;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        const config = {
+            type: Phaser.AUTO,
+            width: 640,
+            height: 480,
+            backgroundColor: '#2d2d2d',
+            scene: {
+                preload: preload,
+                create: create,
+                update: update
+            }
+        };
+
+        const game = new Phaser.Game(config);
+
+        function preload() {
+            // Cargar assets aquí
+        }
+
+        function create() {
+            // Crear objetos del juego aquí
+            let posicionX = 0;
+            let posicionY = 0;
+            let mensajes={
+                padrenuestro:{
+                    siciliano: "Patri nostru, chi siti 'n celu, Sia santificatu lu vostru nomu,Vinissi prestu lu vostru regnu, Sempri sia fatta la vostra Divina Vuluntati, Comu 'n celu accussì 'n terra. Dàtinillu sta jurnata lu panuzzu cutiddianu, E pirdunàtini li nostri piccati, Accussì comu nuautri li rimittemu ê nostri nimici, E nun ni lassati cascari ntâ tintazzioni, ma scanzàtini dû mali. Ámin."
+                }
+            }
+            this.add.text(posicionX, posicionY, mensajes.padrenuestro.siciliano, {
+                font: '8px Arial',
+                fill: '#ffffff'
+            }).setOrigin(0.5);
+        }
+
+        function update() {
+            // Lógica de actualización aquí
+        }
+    </script>
+</body>
+</html>
