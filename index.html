@@ -34,46 +34,77 @@
 </head>
 <body>
     <script>
+        // Escena principal que contiene lo que ya tenías (texto overlay)
+        class MainScene extends Phaser.Scene {
+            constructor() {
+                super('MainScene');
+            }
+
+            preload() {
+                // Cargar assets aquí si hace falta
+            }
+
+            create() {
+                const mensajes = {
+                    padrenuestro: {
+                        siciliano: "Patri nostru, chi siti 'n celu, Sia santificatu lu vostru nomu, Vinissi prestu lu vostru regnu, Sempri sia fatta la vostra Divina Vuluntati, Comu 'n celu accussì 'n terra. Dàtinillu sta jurnata lu panuzzu cutiddianu, E pirdunàtini li nostri piccati, Accussì comu nuautri li rimittemu ê nostri nimici, E nun ni lassati cascari ntâ tintazzioni, ma scanzàtini dû mali. Ámin."
+                    }
+                };
+
+                // Crear/actualizar overlay HTML para mostrar texto justificado
+                const text = mensajes.padrenuestro.siciliano;
+                let overlay = document.getElementById('text-overlay');
+                if (!overlay) {
+                    overlay = document.createElement('div');
+                    overlay.id = 'text-overlay';
+                    document.body.appendChild(overlay);
+                }
+                overlay.innerText = text;
+
+                // Al presionar cualquier tecla, salimos de esta escena y entramos en InputScene
+                this.input.keyboard.on('keydown', () => {
+                    this.scene.start('InputScene');
+                });
+
+                // Limpiar overlay cuando la escena se apaga
+                this.events.on('shutdown', () => {
+                    const el = document.getElementById('text-overlay');
+                    if (el && el.parentNode) el.parentNode.removeChild(el);
+                });
+            }
+
+            update() {
+                // Lógica de actualización si se necesita
+            }
+        }
+
+        // Escena vacía para recibir entrada de teclas durante el juego
+        class InputScene extends Phaser.Scene {
+            constructor() {
+                super('InputScene');
+            }
+
+            create() {
+                // Escena vacía; aquí podrás añadir manejadores de teclas para jugar
+                this.add.text(10, 10, 'Escena de entrada (presiona teclas)', { font: '18px Arial', fill: '#ffffff' });
+
+                // Ejemplo: escuchar teclas individuales (puedes personalizar luego)
+                this.input.keyboard.on('keydown', (event) => {
+                    // Por ahora solo mostramos la tecla en consola y en pantalla
+                    console.log('Tecla pulsada en InputScene:', event.key);
+                });
+            }
+        }
+
         const config = {
             type: Phaser.AUTO,
             width: 640,
             height: 480,
             backgroundColor: '#2d2d2d',
-            scene: {
-                preload: preload,
-                create: create,
-                update: update
-            }
+            scene: [MainScene, InputScene]
         };
 
         const game = new Phaser.Game(config);
-
-        function preload() {
-            // Cargar assets aquí
-        }
-
-        function create() {
-            // Crear objetos del juego aquí
-            let mensajes = {
-                padrenuestro: {
-                    siciliano: "Patri nostru, chi siti 'n celu, Sia santificatu lu vostru nomu,Vinissi prestu lu vostru regnu, Sempri sia fatta la vostra Divina Vuluntati, Comu 'n celu accussì 'n terra. Dàtinillu sta jurnata lu panuzzu cutiddianu, E pirdunàtini li nostri piccati, Accussì comu nuautri li rimittemu ê nostri nimici, E nun ni lassati cascari ntâ tintazzioni, ma scanzàtini dû mali. Ámin."
-                }
-            };
-
-            // Mostrar texto usando un elemento HTML overlay para permitir "justify" y evitar desbordes
-            const text = mensajes.padrenuestro.siciliano;
-            let overlay = document.getElementById('text-overlay');
-            if (!overlay) {
-                overlay = document.createElement('div');
-                overlay.id = 'text-overlay';
-                document.body.appendChild(overlay);
-            }
-            overlay.innerText = text;
-        }
-
-        function update() {
-            // Lógica de actualización aquí
-        }
     </script>
 </body>
 </html>
