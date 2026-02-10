@@ -6,14 +6,29 @@
     <title>Mi Juego con Phaser</title>
     <script src="https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
     <style>
-        body {
+        html, body {
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            height: 100%;
             background-color: #222;
+        }
+        canvas {
+            display: block;
+        }
+        /* Overlay para texto justificado en la esquina superior izquierda */
+        #text-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 640px;
+            max-width: 100%;
+            color: #ffffff;
+            padding: 10px;
+            box-sizing: border-box;
+            text-align: justify;
+            font: 24px Arial, sans-serif;
+            pointer-events: none;
+            white-space: normal;
         }
     </style>
 </head>
@@ -39,17 +54,21 @@
 
         function create() {
             // Crear objetos del juego aquí
-            let posicionX = 0;
-            let posicionY = 0;
-            let mensajes={
-                padrenuestro:{
+            let mensajes = {
+                padrenuestro: {
                     siciliano: "Patri nostru, chi siti 'n celu, Sia santificatu lu vostru nomu,Vinissi prestu lu vostru regnu, Sempri sia fatta la vostra Divina Vuluntati, Comu 'n celu accussì 'n terra. Dàtinillu sta jurnata lu panuzzu cutiddianu, E pirdunàtini li nostri piccati, Accussì comu nuautri li rimittemu ê nostri nimici, E nun ni lassati cascari ntâ tintazzioni, ma scanzàtini dû mali. Ámin."
                 }
+            };
+
+            // Mostrar texto usando un elemento HTML overlay para permitir "justify" y evitar desbordes
+            const text = mensajes.padrenuestro.siciliano;
+            let overlay = document.getElementById('text-overlay');
+            if (!overlay) {
+                overlay = document.createElement('div');
+                overlay.id = 'text-overlay';
+                document.body.appendChild(overlay);
             }
-            this.add.text(posicionX, posicionY, mensajes.padrenuestro.siciliano, {
-                font: '24px Arial',
-                fill: '#ffffff'
-            }).setOrigin(0.5);
+            overlay.innerText = text;
         }
 
         function update() {
